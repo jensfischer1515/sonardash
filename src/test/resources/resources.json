@@ -1,0 +1,52 @@
+[
+  {
+    "id": 2707,
+    "key": "com.epages:epagesj:origin_dev",
+    "name": "epagesj origin_dev",
+    "scope": "PRJ",
+    "qualifier": "TRK",
+    "date": "2015-04-09T06:30:17-0400",
+    "creationDate": null,
+    "lname": "epagesj origin_dev",
+    "version": "6.17.21-SNAPSHOT",
+    "branch": "origin_dev",
+    "description": "",
+    "msr": [
+      {
+        "key": "class_complexity",
+        "val": 4.8,
+        "frmt_val": "4.8"
+      },
+      {
+        "key": "violations",
+        "val": 599.0,
+        "frmt_val": "599"
+      },
+      {
+        "key": "blocker_violations",
+        "val": 0.0,
+        "frmt_val": "0"
+      },
+      {
+        "key": "critical_violations",
+        "val": 1.0,
+        "frmt_val": "1"
+      },
+      {
+        "key": "major_violations",
+        "val": 417.0,
+        "frmt_val": "417"
+      },
+      {
+        "key": "minor_violations",
+        "val": 128.0,
+        "frmt_val": "128"
+      },
+      {
+        "key": "info_violations",
+        "val": 53.0,
+        "frmt_val": "53"
+      }
+    ]
+  }
+]

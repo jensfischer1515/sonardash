@@ -1,10 +1,41 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>Sonar Dash</title>
-</head>
-<body>
-<h1>Sonar Dash</h1>
+<head th:replace="fragments :: head"></head>
+
+<body role="document">
+
+<div class="container theme-showcase" role="main">
+    <div th:replace="fragments :: title"></div>
+</div>
+
+<!--@thymesVar id="projects" type="java.util.List<sonardash.Project>"-->
+<div class="container" th:unless="${projects.empty}">
+    <h1>Projects inspected by SonarQube</h1>
+    <table class="table table-condensed table-striped table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Key</th>
+            <th>Name</th>
+            <th>Qualifier</th>
+            <th>Scope</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="project : ${projects}">
+            <td th:text="${project.id}">123</td>
+            <td><a href="resource.html?key=key" th:href="@{/resource(key=${project.key})}"><span th:text="${project.key}">key</span></a>
+            </td>
+            <td th:text="${project.name}">name</td>
+            <td th:text="${project.qualifier}">qualifier</td>
+            <td th:text="${project.scope}">acope</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="fragments :: footer"></div>
+
 </body>
 </html>

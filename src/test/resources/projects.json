@@ -1,0 +1,44 @@
+[
+  {
+    "id": "113802",
+    "k": "de.epages:Build_soapClient:origin_master",
+    "nm": "Build_soapClient origin_master",
+    "qu": "TRK",
+    "sc": "PRJ"
+  },
+  {
+    "id": "134413",
+    "k": "de.epages:ShopMigration:origin_master",
+    "nm": "ShopMigration origin_master",
+    "qu": "TRK",
+    "sc": "PRJ"
+  },
+  {
+    "id": "136525",
+    "k": "eis",
+    "nm": "eis",
+    "qu": "TRK",
+    "sc": "PRJ"
+  },
+  {
+    "id": "134228",
+    "k": "epages7:ui-layer:0.2.1",
+    "nm": "epages-ui",
+    "qu": "TRK",
+    "sc": "PRJ"
+  },
+  {
+    "id": "136526",
+    "k": "epages-ui-storage",
+    "nm": "epages-ui-storage",
+    "qu": "TRK",
+    "sc": "PRJ"
+  },
+  {
+    "id": "2707",
+    "k": "com.epages:epagesj:origin_dev",
+    "nm": "epagesj origin_dev",
+    "qu": "TRK",
+    "sc": "PRJ"
+  }
+]
