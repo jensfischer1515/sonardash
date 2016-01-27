@@ -74,5 +74,35 @@ public class Resource  {
 
         @JsonProperty("frmt_val")
         private String formattedValue;
+
+        @JsonProperty("data")
+        private String data;
+    }
+
+    @Getter
+    @Builder
+    @ToString
+    @EqualsAndHashCode(of = "metric")
+    @AllArgsConstructor(access = PUBLIC)
+    @NoArgsConstructor(access = PRIVATE)
+    public static class QualityGateDetailsCondition {
+
+        @JsonProperty("metric")
+        private String metric;
+
+        @JsonProperty("op")
+        private String operation;
+
+        @JsonProperty("period")
+        private int period;
+
+        @JsonProperty("error")
+        private String error;
+
+        @JsonProperty("actual")
+        private String actual;
+
+        @JsonProperty("level")
+        private String level;
     }
 }
