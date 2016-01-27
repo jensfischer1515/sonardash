@@ -1,0 +1,40 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments :: head"></head>
+
+<body role="document">
+
+<div class="container theme-showcase" role="main">
+    <div th:replace="fragments :: title"></div>
+</div>
+
+<div class="container" th:unless="${projectMetrics.empty}">
+    <h1>Projects inspected by SonarQube</h1>
+    <table class="table table-condensed table-striped table-hover">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th colspan="2">Lines of Code</th>
+            <th colspan="2">Test Coverage</th>
+            <th colspan="2">Violations</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="projectMetric : ${projectMetrics}">
+            <td th:text="${projectMetric.name}">name</td>
+            <td th:text="${#numbers.formatInteger(projectMetric.lines, 1, 'POINT')}">3,123</td>
+            <td th:text="${#numbers.formatInteger(projectMetric.linesDelta, 1, 'POINT')}">3,123</td>
+            <td th:text="${#numbers.formatDecimal(projectMetric.coverage, 1, 1) + '%'}">25.5%</td>
+            <td th:text="${#numbers.formatDecimal(projectMetric.coverageDelta, 1, 1)}">25.5%</td>
+            <td th:text="${#numbers.formatInteger(projectMetric.violations, 1, 'POINT')}">25</td>
+            <td th:text="${#numbers.formatInteger(projectMetric.violationsDelta, 1, 'POINT')}">25</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="fragments :: footer"></div>
+
+</body>
+</html>

@@ -26,8 +26,12 @@ public class SonarQubeCaller {
         return new BasicHeader(ACCEPT, APPLICATION_JSON_VALUE);
     }
 
-    public String get(String endpointSuffix) throws IOException {
-        Response response = Request.Get(sonarQubeProperties.getEndpoint() + endpointSuffix).addHeader(getAcceptHeader()).execute();
-        return response.returnContent().asString();
+    public String get(String endpointSuffix) {
+        try {
+            Response response = Request.Get(sonarQubeProperties.getEndpoint() + endpointSuffix).addHeader(getAcceptHeader()).execute();
+            return response.returnContent().asString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

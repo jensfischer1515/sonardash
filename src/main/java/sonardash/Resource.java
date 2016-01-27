@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.joda.time.DateTime;
 
@@ -28,7 +29,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 @EqualsAndHashCode(of = "key")
 @AllArgsConstructor(access = PUBLIC)
 @NoArgsConstructor(access = PRIVATE)
-public class Resource  {
+public class Resource {
 
     private int id;
     private String key;
@@ -51,12 +52,17 @@ public class Resource  {
         return Project.builder().id(String.valueOf(id)).key(key).name(name).qualifier(qualifier).scope(scope).build();
     }
 
+    @JsonIgnore
+    public Optional<Metric> getMetric(MetricDefinition metricDefinition) {
+        return metrics.stream().filter(metric -> metricDefinition.equals(metric.getDefinition())).findFirst();
+    }
+
     static class ListReference extends TypeReference<List<Resource>> {
     }
 
     @Getter
     @Builder
-    @ToString(exclude = {"resource"})
+    @ToString(exclude = { "resource" })
     @EqualsAndHashCode(of = "definition")
     @AllArgsConstructor(access = PUBLIC)
     @NoArgsConstructor(access = PRIVATE)

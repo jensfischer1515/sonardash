@@ -18,7 +18,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedMap;
 
 public class TimeMachine {
@@ -30,11 +29,11 @@ public class TimeMachine {
     private List<Cell> cells = newArrayList();
 
     @JsonIgnore
-    public ImmutableMap<MetricDefinition, Double> getDeltas() {
+    public ImmutableSortedMap<MetricDefinition, Double> getDeltas() {
         final ImmutableSortedMap<DateTime, ImmutableList<MetricValue>> history = getHistory();
 
         if (history.isEmpty()) {
-            return ImmutableMap.of();
+            return ImmutableSortedMap.of();
         }
 
         final Map<MetricDefinition, Double> firstValues = history.firstEntry().getValue().stream()
@@ -49,7 +48,7 @@ public class TimeMachine {
             return (lastValue - firstValue);
         }));
 
-        return ImmutableMap.copyOf(deltas);
+        return ImmutableSortedMap.copyOf(deltas);
     }
 
     @JsonIgnore
