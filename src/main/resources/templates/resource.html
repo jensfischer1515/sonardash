@@ -21,6 +21,7 @@
             <th>Metric</th>
             <th>Value</th>
             <th>Data</th>
+            <th>Delta</th>
         </tr>
         </thead>
         <tbody>
@@ -28,6 +29,7 @@
             <td th:text="${metric.definition}">metric</td>
             <td th:text="${metric.formattedValue}">1.0</td>
             <td th:text="${metric.data}">ERROR</td>
+            <td th:text="${deltas[metric.definition]}" >-5.0</td>
         </tr>
         </tbody>
     </table>

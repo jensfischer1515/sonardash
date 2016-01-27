@@ -15,19 +15,16 @@
     <table class="table table-condensed table-striped table-hover">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Key</th>
             <th>Name</th>
+            <th>ID</th>
             <th>Qualifier</th>
             <th>Scope</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="project : ${projects}">
+            <td><a href="resource.html?key=key" th:href="@{/resource(key=${project.key})}"><span th:text="${project.name}">name</span></a></td>
             <td th:text="${project.id}">123</td>
-            <td><a href="resource.html?key=key" th:href="@{/resource(key=${project.key})}"><span th:text="${project.key}">key</span></a>
-            </td>
-            <td th:text="${project.name}">name</td>
             <td th:text="${project.qualifier}">qualifier</td>
             <td th:text="${project.scope}">acope</td>
         </tr>

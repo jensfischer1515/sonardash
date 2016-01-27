@@ -5,7 +5,7 @@ import com.google.common.base.Joiner;
 // see http://docs.sonarqube.org/display/SONAR/Metric+definitions
 public enum MetricDefinition {
     ncloc,
-    alert_status,
+    //alert_status,
     //quality_gate_details,
     complexity,
     class_complexity,

@@ -47,15 +47,37 @@ public class SonarQubeService {
         return getMetricHistory(key, from, now());
     }
 
-    private DateTime now() {
-        return new DateTime();
-    }
-
     public ImmutableMap<DateTime, ImmutableList<MetricValue>> getMetricHistory(String key, DateTime from, DateTime to) throws IOException {
         return getMetricHistory(key, new Interval(from, to));
     }
 
     public ImmutableMap<DateTime, ImmutableList<MetricValue>> getMetricHistory(String key, Interval between) throws IOException {
+        final List<TimeMachine> timeMachines = getTimeMachines(key, between);
+
+        return timeMachines.isEmpty() ? ImmutableMap.of() : timeMachines.get(0).getHistory();
+    }
+
+    public ImmutableMap<MetricDefinition, Double> getDeltas(String key, DateTime from) throws IOException {
+        return getDeltas(key, from, now());
+    }
+
+    public ImmutableMap<MetricDefinition, Double> getDeltas(String key, DateTime from, DateTime to) throws IOException {
+        return getDeltas(key, new Interval(from, to));
+    }
+
+    public ImmutableMap<MetricDefinition, Double> getDeltas(String key, Interval between) throws IOException {
+        final List<TimeMachine> timeMachines = getTimeMachines(key, between);
+
+        return timeMachines.isEmpty() ? ImmutableMap.of() : timeMachines.get(0).getDeltas();
+    }
+
+    private DateTime now() {
+        return new DateTime();
+    }
+
+    private List<TimeMachine> getTimeMachines(String key, Interval between) throws IOException {
+        // http -vj http://sonar.epages.works:9000/api/timemachine/index format=json resource=shared:origin/master fromDateTime=2016-01-13T00:00:00+0100 toDate=2016-01-25T23:59:59+0100 metrics=ncloc,violations,coverage
+        // http://sonar.epages.works:9000/api/timemachine/index?format=json&resource=shared%3Aorigin%2Fmaster&fromDateTime=2016-01-13T00%3A00%3A00%2B0100&toDate=2016-01-25T23%3A59%3A59%2B0100&metrics=ncloc%2Cviolations%2Ccoverage
         String endpoint = new StringBuilder("timemachine/index") //
                 .append("?format=json") //
                 .append("&resource=" + key) //
@@ -64,8 +86,6 @@ public class SonarQubeService {
                 .append("&metrics=" + MetricDefinition.joinAll()) //
                 .toString();
         String json = sonarQubeCaller.get(endpoint);
-        List<TimeMachine> timeMachines = objectMapper.readValue(json, new TimeMachine.ListReference());
-
-        return timeMachines.isEmpty() ? ImmutableMap.of() : timeMachines.get(0).getHistory();
+        return objectMapper.readValue(json, new TimeMachine.ListReference());
     }
 }

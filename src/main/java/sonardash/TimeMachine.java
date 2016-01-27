@@ -1,11 +1,14 @@
 package sonardash;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toMap;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 
@@ -16,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSortedMap;
 
 public class TimeMachine {
 
@@ -26,8 +30,36 @@ public class TimeMachine {
     private List<Cell> cells = newArrayList();
 
     @JsonIgnore
-    public ImmutableMap<DateTime, ImmutableList<MetricValue>> getHistory() {
-        ImmutableMap.Builder<DateTime, ImmutableList<MetricValue>> history = ImmutableMap.builder();
+    public ImmutableMap<MetricDefinition, Double> getDeltas() {
+        final ImmutableSortedMap<DateTime, ImmutableList<MetricValue>> history = getHistory();
+
+        if (history.isEmpty()) {
+            return ImmutableMap.of();
+        }
+
+        final Map<MetricDefinition, Double> firstValues = history.firstEntry().getValue().stream()
+                .collect(toMap(MetricValue::getDefinition, MetricValue::getValue));
+
+        final Map<MetricDefinition, Double> lastValues = history.lastEntry().getValue().stream()
+                .collect(toMap(MetricValue::getDefinition, MetricValue::getValue));
+
+        final Map<MetricDefinition, Double> deltas = firstValues.keySet().stream().collect(toMap(identity(), metricDefinition -> {
+            final double firstValue = firstValues.getOrDefault(metricDefinition, 0.0);
+            final double lastValue = lastValues.getOrDefault(metricDefinition, 0.0);
+            return (lastValue - firstValue);
+        }));
+
+        return ImmutableMap.copyOf(deltas);
+    }
+
+    @JsonIgnore
+    public double getDelta(MetricDefinition metricDefinition) {
+        return getDeltas().getOrDefault(metricDefinition, 0.0);
+    }
+
+    @JsonIgnore
+    public ImmutableSortedMap<DateTime, ImmutableList<MetricValue>> getHistory() {
+        ImmutableSortedMap.Builder<DateTime, ImmutableList<MetricValue>> history = ImmutableSortedMap.naturalOrder();
 
         for (Cell cell : cells) {
             ImmutableList.Builder<MetricValue> metricValues = ImmutableList.builder();
