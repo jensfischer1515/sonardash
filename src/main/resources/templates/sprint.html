@@ -16,19 +16,37 @@
         <tr>
             <th>Name</th>
             <th colspan="2">Lines of Code</th>
-            <th colspan="2">Test Coverage</th>
+            <th colspan="2">Classes</th>
+            <th colspan="2">Complexity / Class</th>
             <th colspan="2">Violations</th>
+            <th colspan="2">Test Coverage</th>
+            <th colspan="2">Test Execution Time</th>
+            <th colspan="2">Skipped Tests</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="projectMetric : ${projectMetrics}">
             <td th:text="${projectMetric.name}">name</td>
-            <td th:text="${#numbers.formatInteger(projectMetric.lines, 1, 'POINT')}">3,123</td>
-            <td th:text="${#numbers.formatInteger(projectMetric.linesDelta, 1, 'POINT')}">3,123</td>
-            <td th:text="${#numbers.formatDecimal(projectMetric.coverage, 1, 1) + '%'}">25.5%</td>
-            <td th:text="${#numbers.formatDecimal(projectMetric.coverageDelta, 1, 1)}">25.5%</td>
-            <td th:text="${#numbers.formatInteger(projectMetric.violations, 1, 'POINT')}">25</td>
-            <td th:text="${#numbers.formatInteger(projectMetric.violationsDelta, 1, 'POINT')}">25</td>
+            <td th:text="${#numbers.formatInteger(projectMetric.lines.value, 1, 'POINT')}">3,123</td>
+            <td th:text="${#numbers.formatInteger(projectMetric.lines.delta, 1, 'POINT')}">-123</td>
+
+            <td th:text="${#numbers.formatInteger(projectMetric.classes.value, 1, 'POINT')}">23</td>
+            <td th:text="${#numbers.formatInteger(projectMetric.classes.delta, 1, 'POINT')}">+3</td>
+
+            <td th:text="${#numbers.formatDecimal(projectMetric.classComplexity.value, 1, 1)}">5.5</td>
+            <td th:text="${#numbers.formatDecimal(projectMetric.classComplexity.delta, 1, 1)}">+0.5</td>
+
+            <td th:text="${#numbers.formatInteger(projectMetric.violations.value, 1, 'POINT')}">25</td>
+            <td th:text="${#numbers.formatInteger(projectMetric.violations.delta, 1, 'POINT')}">-2</td>
+
+            <td th:text="${#numbers.formatDecimal(projectMetric.coverage.value, 1, 1) + '%'}">25.5%</td>
+            <td th:text="${#numbers.formatDecimal(projectMetric.coverage.delta, 1, 1)}">+5.5</td>
+
+            <td th:text="${#numbers.formatDecimal(projectMetric.testExecutionTime.value / 1000, 1, 1) + 's'}">25s</td>
+            <td th:text="${#numbers.formatDecimal(projectMetric.testExecutionTime.delta / 1000, 1, 1)}">+5.5</td>
+
+            <td th:text="${#numbers.formatInteger(projectMetric.skippedTests.value, 1, 'POINT')}">0</td>
+            <td th:text="${#numbers.formatInteger(projectMetric.skippedTests.delta, 1, 'POINT')}">-3</td>
         </tr>
         </tbody>
     </table>
