@@ -44,7 +44,7 @@
             <td class="metric-delta" th:text="${projectMetric.coverage.formattedDelta}" th:classappend="${projectMetric.coverage.delta lt 0} ? 'metric-decrease' : 'metric-improve'">(+5.5)</td>
 
             <td class="metric-value" th:text="${projectMetric.testExecutionTime.formattedValue}">25s</td>
-            <td class="metric-delta" th:text="${projectMetric.testExecutionTime.formattedDelta}" th:classappend="${projectMetric.testExecutionTime.delta lt 0} ? 'metric-decrease' : 'metric-improve'">(+5.5)</td>
+            <td class="metric-delta" th:text="${projectMetric.testExecutionTime.formattedDelta}" th:classappend="${projectMetric.testExecutionTime.delta gt 0} ? 'metric-decrease' : 'metric-improve'">(+5.5)</td>
 
             <td class="metric-value" th:text="${projectMetric.skippedTests.formattedValue}">0</td>
             <td class="metric-delta" th:text="${projectMetric.skippedTests.formattedDelta}" th:classappend="${projectMetric.skippedTests.delta gt 0} ? 'metric-decrease' : 'metric-improve'">(-3)</td>

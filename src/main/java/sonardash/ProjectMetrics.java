@@ -13,10 +13,6 @@ public class ProjectMetrics {
 
     private static final String DOUBLE_PATTERN = "#,##0.0";
 
-    private static final String PERCENT_PATTERN = "#,##0.0'%'";
-
-    private static final String SECONDS_PATTERN = "#,##0.0s";
-
     private final String key;
 
     private final String name;
@@ -29,9 +25,9 @@ public class ProjectMetrics {
 
     private final ProjectMetric violations = new ProjectMetric(INTEGER_PATTERN);
 
-    private final ProjectMetric coverage = new ProjectMetric(PERCENT_PATTERN);
+    private final ProjectMetric coverage = new ProjectMetric("#,##0.0'%'");
 
-    private final ProjectMetric testExecutionTime = new ProjectMetric(SECONDS_PATTERN);
+    private final ProjectMetric testExecutionTime = new ProjectMetric("#,##0.0s", "(+#,##0ms);(-#,##0ms)");
 
     private final ProjectMetric skippedTests = new ProjectMetric(INTEGER_PATTERN);
 
@@ -60,7 +56,7 @@ public class ProjectMetrics {
         classComplexity.delta = deltas.getOrDefault(MetricDefinition.class_complexity, 0.0);
         violations.delta = deltas.getOrDefault(MetricDefinition.violations, 0.0);
         coverage.delta = deltas.getOrDefault(MetricDefinition.coverage, 0.0);
-        testExecutionTime.delta = deltas.getOrDefault(MetricDefinition.test_execution_time, 0.0) / 1_000;
+        testExecutionTime.delta = deltas.getOrDefault(MetricDefinition.test_execution_time, 0.0);
         skippedTests.delta = deltas.getOrDefault(MetricDefinition.skipped_tests, 0.0);
     }
 
@@ -76,7 +72,7 @@ public class ProjectMetrics {
         private double delta;
 
         public ProjectMetric(String formatValuePattern) {
-            this(formatValuePattern, String.format("+%s;-%s", formatValuePattern, formatValuePattern));
+            this(formatValuePattern, String.format("(+%s);(-%s)", formatValuePattern, formatValuePattern));
         }
 
         public ProjectMetric(String formatValuePattern, String formatDeltaPattern) {
@@ -89,7 +85,7 @@ public class ProjectMetrics {
         }
 
         public String getFormattedDelta() {
-            return String.format("(%s)", deltaFormatter.format(delta));
+            return deltaFormatter.format(delta);
         }
     }
 }
