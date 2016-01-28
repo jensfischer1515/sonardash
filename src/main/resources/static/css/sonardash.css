@@ -2,3 +2,21 @@
 .table-striped>tbody>tr:nth-child(odd)>th {
     background-color: #eee;
 }
+
+
+td.metric-value {
+    text-align: right;
+}
+
+td.metric-delta {
+    text-align: right;
+    font-size: 80%;
+}
+
+td.metric-improve {
+    color: rgb(50, 200, 50);
+}
+
+td.metric-decrease {
+    color: rgb(200, 50, 50);
+}
