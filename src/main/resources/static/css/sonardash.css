@@ -3,6 +3,9 @@
     background-color: #eee;
 }
 
+th.metric-headline {
+    text-align: center;
+}
 
 td.metric-value {
     text-align: right;

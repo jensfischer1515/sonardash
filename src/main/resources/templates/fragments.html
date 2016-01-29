@@ -11,7 +11,7 @@
 
 <body role="document">
 
-<div th:fragment="title" class="jumbotron">
+<div th:fragment="title" class="jumbotron" th:unless="${param.containsKey('hide') and #arrays.contains(param.hide, 'title')}">
     <div class="container">
         <h1>SonarQube Dashboard</h1>
         <p>All your metrics are belong to us!</p>
