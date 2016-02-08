@@ -3,23 +3,27 @@
     background-color: #eee;
 }
 
-th.metric-headline {
+table.metrics th {
     text-align: center;
 }
 
-td.metric-value {
+table.metrics .metrics-name {
+    text-align: left;
+}
+
+table.metrics .metric-value {
     text-align: right;
 }
 
-td.metric-delta {
+table.metrics .metric-delta {
     text-align: right;
     font-size: 80%;
 }
 
-td.metric-improve {
+table.metrics .metric-improve {
     color: rgb(50, 200, 50);
 }
 
-td.metric-decrease {
+table.metrics .metric-decrease {
     color: rgb(200, 50, 50);
 }

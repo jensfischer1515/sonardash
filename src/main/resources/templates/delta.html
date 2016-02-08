@@ -18,57 +18,81 @@
         <em th:text="${#dates.format(interval.end.toDate(), 'dd/MMM/yyyy HH:mm')}">2016-01-24T00:00</em>
     </h4>
 
-    <table class="table table-condensed table-striped table-hover">
+    <table class="metrics table table-condensed table-striped table-hover">
         <thead>
         <tr>
-            <th>Name</th>
-            <th th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'ncloc')}" colspan="2" class="metric-headline">Lines of Code</th>
-            <th th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'classes')}" colspan="2" class="metric-headline">Classes</th>
-            <th th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'class_complexity')}" colspan="2" class="metric-headline">Complexity / Class</th>
-            <th th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'violations')}" colspan="2" class="metric-headline">Violations</th>
-            <th th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'coverage')}" colspan="2" class="metric-headline">Test Coverage</th>
-            <th th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'test_execution_time')}" colspan="2" class="metric-headline">Test Execution Time</th>
-            <th th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'skipped_tests')}" colspan="2" class="metric-headline">Skipped Tests</th>
+            <th class="metrics-name"><span>Name</span></th>
+            <th th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'ncloc')}" colspan="2">Lines of Code</th>
+            <th th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'classes')}" colspan="2">Classes</th>
+            <th th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'class_complexity')}" colspan="2">Complexity / Class</th>
+            <th th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'violations')}" colspan="2">Violations</th>
+            <th th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'coverage')}" colspan="2">Test Coverage</th>
+            <th th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'test_execution_time')}" colspan="2">Test Execution Time</th>
+            <th th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'skipped_tests')}" colspan="2">Skipped Tests</th>
         </tr>
         </thead>
+
         <tbody>
         <tr th:each="projectMetric : ${projectMetrics}">
-            <td th:text="${projectMetric.name}"><a href="resource.html?key=key" th:href="@{/resource(key=${projectMetric.key}, days=14)}">name</a>
+            <td class="metrics-name">
+                <a th:text="${projectMetric.name}" href="resource.html?key=key" th:href="@{/resource(key=${projectMetric.key}, days=14)}" th:unless="${param.containsKey('hide') and #arrays.contains(param.hide, 'resource-link')}">name</a>
+                <span th:text="${projectMetric.name}" th:unless="${param.containsKey('hide') and not #arrays.contains(param.hide, 'resource-link')}">name</span>
             </td>
 
-            <td th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'ncloc')}" class="metric-value" th:text="${projectMetric.lines.formattedValue}">3,123</td>
-            <td th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'ncloc')}" class="metric-delta" th:text="${projectMetric.lines.formattedDelta}"
-                th:classappend="${projectMetric.lines.delta gt 0} ? 'metric-decrease' : 'metric-improve'">(-123)
+            <td class="metric-value" th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'ncloc')}">
+                <span th:text="${projectMetric.lines.formattedValue}">3,123</span>
+            </td>
+            <td class="metric-delta" th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'ncloc')}">
+                <span th:text="${projectMetric.lines.formattedDelta}"
+                      th:classappend="${projectMetric.lines.delta gt 0} ? 'metric-decrease' : 'metric-improve'">(-123)</span>
             </td>
 
-            <td th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'classes')}" class="metric-value" th:text="${projectMetric.classes.formattedValue}">23</td>
-            <td th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'classes')}" class="metric-delta" th:text="${projectMetric.classes.formattedDelta}"
-                th:classappend="${projectMetric.classes.delta gt 0} ? 'metric-decrease' : 'metric-improve'">(+3)
+            <td class="metric-value" th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'classes')}">
+                <span th:text="${projectMetric.classes.formattedValue}">23</span>
+            </td>
+            <td class="metric-delta" th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'classes')}">
+                <span th:text="${projectMetric.classes.formattedDelta}"
+                      th:classappend="${projectMetric.classes.delta gt 0} ? 'metric-decrease' : 'metric-improve'">(+3)</span>
             </td>
 
-            <td th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'class_complexity')}" class="metric-value" th:text="${projectMetric.classComplexity.formattedValue}">5.5</td>
-            <td th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'class_complexity')}" class="metric-delta" th:text="${projectMetric.classComplexity.formattedDelta}"
-                th:classappend="${projectMetric.classComplexity.delta gt 0} ? 'metric-decrease' : 'metric-improve'">(+0.5)
+            <td class="metric-value" th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'class_complexity')}">
+                <span th:text="${projectMetric.classComplexity.formattedValue}">5.5</span>
+            </td>
+            <td class="metric-delta" th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'class_complexity')}">
+                <span th:text="${projectMetric.classComplexity.formattedDelta}"
+                      th:classappend="${projectMetric.classComplexity.delta gt 0} ? 'metric-decrease' : 'metric-improve'">(+0.5)</span>
             </td>
 
-            <td th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'violations')}" class="metric-value" th:text="${projectMetric.violations.formattedValue}">25</td>
-            <td th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'violations')}" class="metric-delta" th:text="${projectMetric.violations.formattedDelta}"
-                th:classappend="${projectMetric.violations.delta gt 0} ? 'metric-decrease' : 'metric-improve'">(-2)
+            <td class="metric-value" th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'violations')}">
+                <span th:text="${projectMetric.violations.formattedValue}">25</span>
+            </td>
+            <td class="metric-delta" th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'violations')}">
+                <span th:text="${projectMetric.violations.formattedDelta}"
+                      th:classappend="${projectMetric.violations.delta gt 0} ? 'metric-decrease' : 'metric-improve'">(-2)</span>
             </td>
 
-            <td th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'coverage')}" class="metric-value" th:text="${projectMetric.coverage.formattedValue}">25.5%</td>
-            <td th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'coverage')}" class="metric-delta" th:text="${projectMetric.coverage.formattedDelta}"
-                th:classappend="${projectMetric.coverage.delta lt 0} ? 'metric-decrease' : 'metric-improve'">(+5.5)
+            <td class="metric-value" th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'coverage')}">
+                <span th:text="${projectMetric.coverage.formattedValue}">25.5%</span>
+            </td>
+            <td class="metric-delta" th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'coverage')}">
+                <span th:text="${projectMetric.coverage.formattedDelta}"
+                      th:classappend="${projectMetric.coverage.delta lt 0} ? 'metric-decrease' : 'metric-improve'">(+5.5)</span>
             </td>
 
-            <td th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'test_execution_time')}" class="metric-value" th:text="${projectMetric.testExecutionTime.formattedValue}">25s</td>
-            <td th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'test_execution_time')}" class="metric-delta" th:text="${projectMetric.testExecutionTime.formattedDelta}"
-                th:classappend="${projectMetric.testExecutionTime.delta gt 0} ? 'metric-decrease' : 'metric-improve'">(+5.5)
+            <td class="metric-value" th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'test_execution_time')}">
+                <span th:text="${projectMetric.testExecutionTime.formattedValue}">25s</span>
+            </td>
+            <td class="metric-delta" th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'test_execution_time')}">
+                <span th:text="${projectMetric.testExecutionTime.formattedDelta}"
+                      th:classappend="${projectMetric.testExecutionTime.delta gt 0} ? 'metric-decrease' : 'metric-improve'">(+5.5)</span>
             </td>
 
-            <td th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'skipped_tests')}" class="metric-value" th:text="${projectMetric.skippedTests.formattedValue}">0</td>
-            <td th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'skipped_tests')}" class="metric-delta" th:text="${projectMetric.skippedTests.formattedDelta}"
-                th:classappend="${projectMetric.skippedTests.delta gt 0} ? 'metric-decrease' : 'metric-improve'">(-3)
+            <td class="metric-value" th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'skipped_tests')}">
+                <span th:text="${projectMetric.skippedTests.formattedValue}">0</span>
+            </td>
+            <td class="metric-delta" th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'skipped_tests')}">
+                <span th:text="${projectMetric.skippedTests.formattedDelta}"
+                      th:classappend="${projectMetric.skippedTests.delta gt 0} ? 'metric-decrease' : 'metric-improve'">(-3)</span>
             </td>
         </tr>
         </tbody>
