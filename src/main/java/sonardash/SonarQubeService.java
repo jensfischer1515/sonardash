@@ -1,6 +1,9 @@
 package sonardash;
 
-import java.io.IOException;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -15,30 +18,25 @@ import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Iterables;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SonarQubeService {
 
+    @NonNull
     private final ObjectMapper objectMapper;
 
+    @NonNull
     private final SonarQubeCaller sonarQubeCaller;
 
-    @Autowired
-    private SonarQubeService(SonarQubeCaller sonarQubeCaller, ObjectMapper objectMapper) {
-        this.sonarQubeCaller = sonarQubeCaller;
-        this.objectMapper = objectMapper;
-    }
-
+    @SneakyThrows
     public List<Project> getAllProjects() {
         String endpoint = new StringBuilder("projects/index") //
                 .append("?format=json") //
                 .toString();
         String json = sonarQubeCaller.get(endpoint);
-        try {
-            return objectMapper.readValue(json, new Project.ListReference());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return objectMapper.readValue(json, new Project.ListReference());
     }
 
+    @SneakyThrows
     public Resource getResource(String key) {
         String endpoint = new StringBuilder("resources") //
                 .append("?format=json") //
@@ -46,12 +44,8 @@ public class SonarQubeService {
                 .append("&metrics=" + MetricDefinition.joinAll()) //
                 .toString();
         String json = sonarQubeCaller.get(endpoint);
-        try {
-            List<Resource> resources = objectMapper.readValue(json, new Resource.ListReference());
-            return Iterables.getOnlyElement(resources);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        List<Resource> resources = objectMapper.readValue(json, new Resource.ListReference());
+        return Iterables.getOnlyElement(resources);
     }
 
     public ImmutableSortedMap<DateTime, ImmutableList<MetricValue>> getMetricHistory(String key, Interval between) {
@@ -62,6 +56,7 @@ public class SonarQubeService {
         return getTimeMachine(key, between).map(TimeMachine::getDeltas).orElse(ImmutableSortedMap.of());
     }
 
+    @SneakyThrows
     private Optional<TimeMachine> getTimeMachine(String key, Interval between) {
         // http -vj http://sonar.epages.works:9000/api/timemachine/index format=json resource=shared:origin/master fromDateTime=2016-01-13T00:00:00+0100 toDate=2016-01-25T23:59:59+0100 metrics=ncloc,violations,coverage
         // http://sonar.epages.works:9000/api/timemachine/index?format=json&resource=shared%3Aorigin%2Fmaster&fromDateTime=2016-01-13T00%3A00%3A00%2B0100&toDate=2016-01-25T23%3A59%3A59%2B0100&metrics=ncloc%2Cviolations%2Ccoverage
@@ -73,11 +68,7 @@ public class SonarQubeService {
                 .append("&metrics=" + MetricDefinition.joinAll()) //
                 .toString();
         String json = sonarQubeCaller.get(endpoint);
-        try {
-            List<TimeMachine> timeMachines = objectMapper.readValue(json, new TimeMachine.ListReference());
-            return timeMachines.isEmpty() ? Optional.empty() : Optional.of(timeMachines.get(0));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        List<TimeMachine> timeMachines = objectMapper.readValue(json, new TimeMachine.ListReference());
+        return timeMachines.isEmpty() ? Optional.empty() : Optional.of(timeMachines.get(0));
     }
 }

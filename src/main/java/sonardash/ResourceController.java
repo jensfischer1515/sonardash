@@ -1,5 +1,7 @@
 package sonardash;
 
+import lombok.RequiredArgsConstructor;
+
 import java.io.IOException;
 
 import org.joda.time.DateTime;
@@ -13,14 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.google.common.collect.ImmutableMap;
 
 @Controller
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ResourceController {
 
     private final SonarQubeService sonarQubeService;
-
-    @Autowired
-    public ResourceController(SonarQubeService sonarQubeService) {
-        this.sonarQubeService = sonarQubeService;
-    }
 
     @RequestMapping("/resource")
     public String resource(Model model, @RequestParam String key, @RequestParam(defaultValue = "14") int days) throws IOException {

@@ -3,6 +3,9 @@ package sonardash;
 import static com.google.common.collect.Sets.newHashSet;
 import static java.util.stream.Collectors.toList;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -20,14 +23,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.google.common.collect.Sets;
 
 @Controller
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DeltaController {
 
+    @NonNull
     private final SonarQubeService sonarQubeService;
-
-    @Autowired
-    public DeltaController(SonarQubeService sonarQubeService) {
-        this.sonarQubeService = sonarQubeService;
-    }
 
     @ModelAttribute("projectFilter")
     public Predicate<Project> createProjectFilter(@RequestParam(required = false) String[] key) {

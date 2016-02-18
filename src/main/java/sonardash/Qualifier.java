@@ -1,7 +1,6 @@
 package sonardash;
 
 public enum Qualifier {
-
     VW, // view
     SVW, // sub-view
     TRK, // project
