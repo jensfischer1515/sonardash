@@ -6,16 +6,18 @@ import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
-import static sonardash.MetricDefinition.blocker_violations;
-import static sonardash.MetricDefinition.class_complexity;
-import static sonardash.MetricDefinition.critical_violations;
-import static sonardash.MetricDefinition.info_violations;
-import static sonardash.MetricDefinition.major_violations;
-import static sonardash.MetricDefinition.minor_violations;
-import static sonardash.Qualifier.TRK;
-import static sonardash.Scope.PRJ;
+import static sonardash.model.MetricDefinition.blocker_violations;
+import static sonardash.model.MetricDefinition.class_complexity;
+import static sonardash.model.MetricDefinition.critical_violations;
+import static sonardash.model.MetricDefinition.info_violations;
+import static sonardash.model.MetricDefinition.major_violations;
+import static sonardash.model.MetricDefinition.minor_violations;
+import static sonardash.model.Qualifier.TRK;
+import static sonardash.model.Scope.PRJ;
 
-import sonardash.Resource.Metric;
+import sonardash.model.Resource;
+import sonardash.model.Resource.Metric;
+import sonardash.model.MetricDefinition;
 
 import java.io.IOException;
 

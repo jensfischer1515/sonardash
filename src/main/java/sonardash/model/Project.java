@@ -1,4 +1,4 @@
-package sonardash;
+package sonardash.model;
 
 import static lombok.AccessLevel.PRIVATE;
 import static lombok.AccessLevel.PUBLIC;
@@ -34,6 +34,6 @@ public class Project {
     @JsonProperty("sc")
     private Scope scope;
 
-    static class ListReference extends TypeReference<List<Project>> {
+    public static class ListReference extends TypeReference<List<Project>> {
     }
 }

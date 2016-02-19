@@ -1,6 +1,8 @@
 package sonardash;
 
 import lombok.RequiredArgsConstructor;
+import sonardash.model.MetricDefinition;
+import sonardash.model.Resource;
 
 import java.io.IOException;
 

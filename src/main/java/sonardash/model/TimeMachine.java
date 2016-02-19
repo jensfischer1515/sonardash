@@ -1,4 +1,4 @@
-package sonardash;
+package sonardash.model;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.function.Function.identity;
@@ -72,7 +72,7 @@ public class TimeMachine {
         return history.build();
     }
 
-    static class ListReference extends TypeReference<List<TimeMachine>> {
+    public static class ListReference extends TypeReference<List<TimeMachine>> {
     }
 
     @ToString(exclude = "timeMachine")

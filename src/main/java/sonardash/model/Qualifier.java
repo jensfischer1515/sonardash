@@ -1,4 +1,4 @@
-package sonardash;
+package sonardash.model;
 
 public enum Qualifier {
     VW, // view

@@ -2,6 +2,7 @@ package sonardash;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import sonardash.model.Project;
 
 import java.io.IOException;
 import java.util.List;

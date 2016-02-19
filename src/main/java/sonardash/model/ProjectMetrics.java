@@ -1,7 +1,7 @@
-package sonardash;
+package sonardash.model;
 
 import lombok.Getter;
-import sonardash.Resource.Metric;
+import sonardash.model.Resource.Metric;
 
 import java.text.DecimalFormat;
 import java.util.Map;

@@ -9,7 +9,7 @@
     <div th:replace="fragments :: title"></div>
 </div>
 
-<!--@thymesVar id="resource" type="sonardash.Resource"-->
+<!--@thymesVar id="resource" type="sonardash.model.Resource"-->
 <div class="container" th:if="${resource}">
     <h1 th:text="'Project ' + ${resource.name}">Project MyFavProject</h1>
 

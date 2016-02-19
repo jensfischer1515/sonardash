@@ -9,7 +9,7 @@
     <div th:replace="fragments :: title"></div>
 </div>
 
-<!--@thymesVar id="projects" type="java.util.List<sonardash.Project>"-->
+<!--@thymesVar id="projects" type="java.util.List<sonardash.model.Project>"-->
 <div class="container" th:unless="${projects.empty}">
     <h1>Projects inspected by SonarQube</h1>
     <table class="table table-condensed table-striped table-hover">

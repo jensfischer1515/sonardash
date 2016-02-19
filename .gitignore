@@ -1,3 +1,4 @@
+.sonar_lock
 *.iml
 *.ipr
 *.iws

@@ -1,4 +1,4 @@
-package sonardash;
+package sonardash.model;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static lombok.AccessLevel.PRIVATE;
@@ -57,7 +57,7 @@ public class Resource {
         return metrics.stream().filter(metric -> metricDefinition.equals(metric.getDefinition())).findFirst();
     }
 
-    static class ListReference extends TypeReference<List<Resource>> {
+    public static class ListReference extends TypeReference<List<Resource>> {
     }
 
     @Getter

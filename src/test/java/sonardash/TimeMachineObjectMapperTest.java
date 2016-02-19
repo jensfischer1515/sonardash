@@ -3,7 +3,10 @@ package sonardash;
 import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.junit.Assert.assertThat;
-import static sonardash.MetricDefinition.class_complexity;
+import static sonardash.model.MetricDefinition.class_complexity;
+
+import sonardash.model.MetricValue;
+import sonardash.model.TimeMachine;
 
 import java.io.IOException;
 import java.util.List;

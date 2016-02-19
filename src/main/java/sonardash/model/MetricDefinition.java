@@ -1,4 +1,4 @@
-package sonardash;
+package sonardash.model;
 
 import com.google.common.base.Joiner;
 

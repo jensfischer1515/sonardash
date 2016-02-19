@@ -1,4 +1,4 @@
-package sonardash;
+package sonardash.model;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;

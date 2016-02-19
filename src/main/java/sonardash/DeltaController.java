@@ -5,6 +5,8 @@ import static java.util.stream.Collectors.toList;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import sonardash.model.Project;
+import sonardash.model.ProjectMetrics;
 
 import java.util.List;
 import java.util.Optional;

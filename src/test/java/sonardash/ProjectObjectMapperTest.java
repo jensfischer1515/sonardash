@@ -4,8 +4,10 @@ import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
-import static sonardash.Qualifier.TRK;
-import static sonardash.Scope.PRJ;
+import static sonardash.model.Qualifier.TRK;
+import static sonardash.model.Scope.PRJ;
+
+import sonardash.model.Project;
 
 import java.io.IOException;
 

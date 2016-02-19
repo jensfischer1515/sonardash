@@ -3,6 +3,12 @@ package sonardash;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import sonardash.model.Event;
+import sonardash.model.MetricDefinition;
+import sonardash.model.MetricValue;
+import sonardash.model.Project;
+import sonardash.model.Resource;
+import sonardash.model.TimeMachine;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +59,9 @@ public class SonarQubeService {
     }
 
     public ImmutableSortedMap<MetricDefinition, Double> getDeltas(String key, Interval between) {
+
+        final List<Event> events = getEvents(key, between);
+
         return getTimeMachine(key, between).map(TimeMachine::getDeltas).orElse(ImmutableSortedMap.of());
     }
 
@@ -70,5 +79,19 @@ public class SonarQubeService {
         String json = sonarQubeCaller.get(endpoint);
         List<TimeMachine> timeMachines = objectMapper.readValue(json, new TimeMachine.ListReference());
         return timeMachines.isEmpty() ? Optional.empty() : Optional.of(timeMachines.get(0));
+    }
+
+    @SneakyThrows
+    public List<Event> getEvents(String key, Interval between) {
+        String endpoint = new StringBuilder("events") //
+                .append("?format=json") //
+                .append("&resource=" + key) //
+                .append("&categories=Version") //
+                .append("&fromDateTime=" + between.getStart().toString()) //
+                .append("&toDateTime=" + between.getEnd().toString()) //
+                .toString();
+
+        String json = sonarQubeCaller.get(endpoint);
+        return objectMapper.<List<Event>>readValue(json, new Event.ListReference());
     }
 }
