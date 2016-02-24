@@ -12,7 +12,7 @@ import org.joda.time.Interval;
 
 import com.google.common.base.Joiner;
 
-@RequiredArgsConstructor(staticName = "forEndpoint")
+@RequiredArgsConstructor
 public class EndPointBuilder {
 
     @NonNull
@@ -27,6 +27,10 @@ public class EndPointBuilder {
     private MetricDefinition[] metrics;
 
     private Event.Category[] categories;
+
+    public static EndPointBuilder forEndpoint(String endpoint) {
+        return new EndPointBuilder(endpoint);
+    }
 
     public EndPointBuilder resource(String resource) {
         this.resource = resource;
