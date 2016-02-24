@@ -4,18 +4,22 @@ buildscript {
     }
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
-        classpath("io.spring.gradle:dependency-management-plugin:0.5.4.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("io.spring.gradle:dependency-management-plugin:0.5.5.RELEASE")
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.12.0'
     }
 }
 
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'idea' 
+apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.github.ben-manes.versions'
 
 jar {
     baseName = 'sonardash'
@@ -27,7 +31,6 @@ targetCompatibility = 1.8
 repositories {
     mavenCentral()
 }
-
 
 dependencies {
     compile("org.projectlombok:lombok:1.16.6")
@@ -48,8 +51,21 @@ dependencies {
 
 eclipse {
     classpath {
-         containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
-         containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+        containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+        containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+    }
+}
+
+dependencyUpdates.resolutionStrategy = {
+    componentSelection { rules ->
+        rules.all { ComponentSelection selection ->
+            boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm'].any { qualifier ->
+                selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+            }
+            if (rejected) {
+                selection.reject('Release candidate')
+            }
+        }
     }
 }
 
