@@ -59,7 +59,7 @@ public class SonarQubeService {
 
     public ImmutableSortedMap<MetricDefinition, Double> getDeltas(String key, Interval between) {
 
-        final List<Event> events = getEvents(key, between);
+        //final List<Event> events = getEvents(key, between);
 
         return getTimeMachine(key, between).map(TimeMachine::getDeltas).orElse(ImmutableSortedMap.of());
     }

@@ -32,7 +32,7 @@ public class DeltaController {
     private final SonarQubeService sonarQubeService;
 
     @ModelAttribute("projectFilter")
-    public Predicate<Project> createProjectFilter(@RequestParam(required = false) String[] key) {
+    public Predicate<Project> populateProjectFilter(@RequestParam(required = false) String[] key) {
         return project -> {
             final Set<String> validKeys = Optional.ofNullable(key).map(Sets::newHashSet).orElse(newHashSet());
             return validKeys.isEmpty() || validKeys.contains(project.getKey());
@@ -40,9 +40,9 @@ public class DeltaController {
     }
 
     @ModelAttribute("interval")
-    public Interval createInterval(@RequestParam Optional<String> from /* 2016-01-24T00:00 */, //
-                                   @RequestParam Optional<String> to /* 2016-01-29T23:59 */, //
-                                   @RequestParam(defaultValue = "14") int days) {
+    public Interval populateInterval(@RequestParam Optional<String> from /* 2016-01-24T00:00 */, //
+                                     @RequestParam Optional<String> to /* 2016-01-29T23:59 */, //
+                                     @RequestParam(defaultValue = "14") int days) {
         final DateTime toDate = to.map(DateTime::parse).orElse(DateTime.now());
         final DateTime fromDate = from.map(DateTime::parse).orElse(toDate.minusDays(days));
         return new Interval(fromDate, toDate);
@@ -53,7 +53,7 @@ public class DeltaController {
                         @ModelAttribute("projectFilter") Predicate<Project> projectFilter, //
                         @ModelAttribute("interval") Interval interval //
     ) {
-        final List<ProjectMetrics> projectMetrics = sonarQubeService.getAllProjects().stream() //
+        final List<ProjectMetrics> projectMetrics = sonarQubeService.getAllProjects().parallelStream() //
                 .filter(projectFilter) //
                 .map(ProjectMetrics::new) //
                 .map(projectMetric -> {
