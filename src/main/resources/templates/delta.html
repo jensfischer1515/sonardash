@@ -35,8 +35,8 @@
         <tbody>
         <tr th:each="projectMetric : ${projectMetrics}">
             <td class="metrics-name">
-                <a th:text="${projectMetric.name}" href="resource.html?key=key" th:href="@{/resource(key=${projectMetric.key}, days=14)}" th:unless="${param.containsKey('hide') and #arrays.contains(param.hide, 'resource-link')}">name</a>
-                <span th:text="${projectMetric.name}" th:if="${param.containsKey('hide') and #arrays.contains(param.hide, 'resource-link')}">name</span>
+                <a th:text="${projectMetric.getName(param.nameFilter)}" href="resource.html?key=key" th:href="@{/resource(key=${projectMetric.key}, days=14)}" th:unless="${param.containsKey('hide') and #arrays.contains(param.hide, 'resource-link')}">name</a>
+                <span th:text="${projectMetric.getName(param.nameFilter)}" th:if="${param.containsKey('hide') and #arrays.contains(param.hide, 'resource-link')}">name</span>
             </td>
 
             <td class="metric-value" th:unless="${param.containsKey('suppress') and #arrays.contains(param.suppress, 'ncloc')}">

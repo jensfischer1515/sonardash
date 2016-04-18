@@ -36,6 +36,10 @@ public class ProjectMetrics {
         name = project.getName();
     }
 
+    public String getName(String filter) {
+        return (filter != null) ? name.replaceAll(filter, "") : name;
+    }
+
     private Double getValue(Resource resource, MetricDefinition metricDefinition) {
         return resource.getMetric(metricDefinition).map(Metric::getValue).orElse(0.0);
     }
