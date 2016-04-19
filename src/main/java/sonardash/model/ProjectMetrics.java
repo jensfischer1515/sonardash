@@ -1,6 +1,7 @@
 package sonardash.model;
 
 import lombok.Getter;
+import lombok.Setter;
 import sonardash.model.Resource.Metric;
 
 import java.text.DecimalFormat;
@@ -32,8 +33,12 @@ public class ProjectMetrics {
     private final ProjectMetric skippedTests = new ProjectMetric(INTEGER_PATTERN);
 
     public ProjectMetrics(Project project) {
-        key = project.getKey();
-        name = project.getName();
+        this(project.getKey(), project.getName());
+    }
+
+    public ProjectMetrics(String key, String name) {
+        this.key = key;
+        this.name = name;
     }
 
     public String getName(String filter) {
@@ -64,7 +69,26 @@ public class ProjectMetrics {
         skippedTests.delta = deltas.getOrDefault(MetricDefinition.skipped_tests, 0.0);
     }
 
+    public ProjectMetrics addTo(ProjectMetrics projectMetrics) {
+        projectMetrics.lines.value += this.lines.value;
+        projectMetrics.lines.delta += this.lines.delta;
+        projectMetrics.classes.value += this.classes.value;
+        projectMetrics.classes.delta += this.classes.delta;
+        projectMetrics.classComplexity.value += this.classComplexity.value;
+        projectMetrics.classComplexity.delta += this.classComplexity.delta;
+        projectMetrics.violations.value += this.violations.value;
+        projectMetrics.violations.delta += this.violations.delta;
+        projectMetrics.coverage.value += this.coverage.value;
+        projectMetrics.coverage.delta += this.coverage.delta;
+        projectMetrics.testExecutionTime.value += this.testExecutionTime.value;
+        projectMetrics.testExecutionTime.delta += this.testExecutionTime.delta;
+        projectMetrics.skippedTests.value *= this.skippedTests.value;
+        projectMetrics.skippedTests.delta += this.skippedTests.delta;
+        return projectMetrics;
+    }
+
     @Getter
+    @Setter
     public static class ProjectMetric {
 
         private final DecimalFormat valueFormatter;

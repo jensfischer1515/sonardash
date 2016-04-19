@@ -32,19 +32,20 @@ public class DeltaController {
     private final SonarQubeService sonarQubeService;
 
     @ModelAttribute("projectFilter")
-    public Predicate<Project> populateProjectFilter(@RequestParam(required = false) String[] key) {
+    public Predicate<Project> populateProjectFilter(@RequestParam(name = "key", required = false) String[] keys) {
         return project -> {
-            final Set<String> validKeys = Optional.ofNullable(key).map(Sets::newHashSet).orElse(newHashSet());
+            final Set<String> validKeys = Optional.ofNullable(keys).map(Sets::newHashSet).orElse(newHashSet());
             return validKeys.isEmpty() || validKeys.contains(project.getKey());
         };
     }
 
     @ModelAttribute("interval")
-    public Interval populateInterval(@RequestParam Optional<String> from /* 2016-01-24T00:00 */, //
-                                     @RequestParam Optional<String> to /* 2016-01-29T23:59 */, //
-                                     @RequestParam(defaultValue = "14") int days) {
-        final DateTime toDate = to.map(DateTime::parse).orElse(DateTime.now());
-        final DateTime fromDate = from.map(DateTime::parse).orElse(toDate.minusDays(days));
+    public Interval populateInterval(@RequestParam(value = "from", required = false) String from /* 2016-01-24T00:00 */, //
+                                     @RequestParam(value = "to", required = false) String to /* 2016-01-29T23:59 */, //
+                                     @RequestParam(name = "days", defaultValue = "14") int days //
+    ) {
+        final DateTime toDate = Optional.ofNullable(to).map(DateTime::parse).orElse(DateTime.now());
+        final DateTime fromDate = Optional.ofNullable(from).map(DateTime::parse).orElse(toDate.minusDays(days));
         return new Interval(fromDate, toDate);
     }
 
@@ -64,7 +65,20 @@ public class DeltaController {
                 }) //
                 .collect(toList());
 
+        projectMetrics.add(summary(projectMetrics));
+
         model.addAttribute("projectMetrics", projectMetrics);
         return "delta";
+    }
+
+    private ProjectMetrics summary(List<ProjectMetrics> projectMetrics) {
+        ProjectMetrics summary = new ProjectMetrics("summary", "Summary");
+        projectMetrics.forEach(p -> p.addTo(summary));
+        // calculate some averages
+        summary.getClassComplexity().setValue(summary.getClassComplexity().getValue() / projectMetrics.size());
+        summary.getClassComplexity().setDelta(summary.getClassComplexity().getDelta() / projectMetrics.size());
+        summary.getCoverage().setValue(summary.getCoverage().getValue() / projectMetrics.size());
+        summary.getCoverage().setDelta(summary.getCoverage().getDelta() / projectMetrics.size());
+        return summary;
     }
 }
