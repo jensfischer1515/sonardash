@@ -53,8 +53,10 @@ public class ProjectMetrics {
         lines.value = getValue(resource, MetricDefinition.ncloc);
         classes.value = getValue(resource, MetricDefinition.classes);
         classComplexity.value = getValue(resource, MetricDefinition.class_complexity);
-        violations.value = getValue(resource, MetricDefinition.violations);
-        coverage.value = getValue(resource, MetricDefinition.coverage);
+        violations.value = getValue(resource, MetricDefinition.blocker_violations)
+                + getValue(resource, MetricDefinition.critical_violations)
+                + getValue(resource, MetricDefinition.major_violations);
+        coverage.value = getValue(resource, MetricDefinition.overall_coverage);
         testExecutionTime.value = getValue(resource, MetricDefinition.test_execution_time) / 1_000;
         skippedTests.value = getValue(resource, MetricDefinition.skipped_tests);
     }
@@ -63,8 +65,10 @@ public class ProjectMetrics {
         lines.delta = deltas.getOrDefault(MetricDefinition.ncloc, 0.0);
         classes.delta = deltas.getOrDefault(MetricDefinition.classes, 0.0);
         classComplexity.delta = deltas.getOrDefault(MetricDefinition.class_complexity, 0.0);
-        violations.delta = deltas.getOrDefault(MetricDefinition.violations, 0.0);
-        coverage.delta = deltas.getOrDefault(MetricDefinition.coverage, 0.0);
+        violations.delta = deltas.getOrDefault(MetricDefinition.blocker_violations, 0.0)
+                + deltas.getOrDefault(MetricDefinition.critical_violations, 0.0)
+                + deltas.getOrDefault(MetricDefinition.major_violations, 0.0);
+        coverage.delta = deltas.getOrDefault(MetricDefinition.overall_coverage, 0.0);
         testExecutionTime.delta = deltas.getOrDefault(MetricDefinition.test_execution_time, 0.0);
         skippedTests.delta = deltas.getOrDefault(MetricDefinition.skipped_tests, 0.0);
     }

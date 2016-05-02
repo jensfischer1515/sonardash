@@ -20,7 +20,13 @@ public enum MetricDefinition {
     skipped_tests,
     coverage,
     branch_coverage,
-    line_coverage;
+    line_coverage,
+    it_coverage,
+    it_branch_coverage,
+    it_line_coverage,
+    overall_coverage,
+    overall_branch_coverage,
+    overall_line_coverage;
 
     public static String joinAll() {
         return Joiner.on(',').join(MetricDefinition.values());

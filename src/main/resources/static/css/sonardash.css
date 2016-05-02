@@ -3,6 +3,10 @@
     background-color: #eee;
 }
 
+table.metrics .summary {
+    font-weight: bold;
+}
+
 table.metrics th {
     text-align: center;
 }
